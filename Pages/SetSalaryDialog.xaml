@@ -5,24 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YourDoctor.Pages"
         mc:Ignorable="d"
-        Title="Назначить зарплату и премию" Height="300" Width="400">
+        Title="Назначить зарплату и премию" Height="200" Width="400">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+        <Label Content="Зарплата:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"/>
+        <TextBox x:Name="txtSalary" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="140,10,0,0" Width="150"/>
 
-        <Label Content="Зарплата:" Grid.Row="1"/>
-        <TextBox x:Name="txtSalary" Grid.Row="1" Margin="5"/>
+        <Label Content="Премия:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,40,0,0"/>
+        <TextBox x:Name="txtBonus" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="140,40,0,0" Width="150"/>
 
-        <Label Content="Премия:" Grid.Row="2"/>
-        <TextBox x:Name="txtBonus" Grid.Row="2" Margin="5"/>
+        <Label Content="Выбор сотрудника:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,70,0,0"/>
+        <ComboBox x:Name="cboUsers" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="140,70,0,0" Width="150"/>
 
-        <ComboBox x:Name="cboUsers" Grid.Row="3" Margin="5"/>
-
-        <Button Content="Назначить" Grid.Row="4" Margin="5" Click="btnSetSalary_Click"/>
+        <Button Content="Назначить" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,100,0,10" Width="75" Click="btnSetSalary_Click"/>
+        <Button Content="Отмена" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="100,100,0,10" Width="75" Click="btnCancel_Click"/>
     </Grid>
 </Window>

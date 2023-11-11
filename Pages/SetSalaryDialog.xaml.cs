@@ -88,13 +88,44 @@ namespace YourDoctor.Pages
                 connection.Open();
 
                 // Подготовка SQL-запроса для обновления данных пользователя
-                string updateQuery = "UPDATE users SET salary = @salary, bonus = @bonus WHERE username = @username";
+                string updateQuery = "UPDATE users SET ";
+
+                if (!string.IsNullOrEmpty(txtSalary.Text))
+                {
+                    updateQuery += "salary = @salary";
+                }
+
+                if (!string.IsNullOrEmpty(txtBonus.Text))
+                {
+                    if (updateQuery != "UPDATE users SET ")
+                    {
+                        updateQuery += ", ";
+                    }
+                    updateQuery += "bonus = @bonus";
+                }
+
+                // условие для пользователя не обязательно
+                if (!string.IsNullOrEmpty(selectedUsername))
+                {
+                    updateQuery += " WHERE username = @username";
+                }
 
                 using (MySqlCommand cmd = new MySqlCommand(updateQuery, connection))
                 {
-                    cmd.Parameters.AddWithValue("@salary", salary);
-                    cmd.Parameters.AddWithValue("@bonus", bonus);
-                    cmd.Parameters.AddWithValue("@username", selectedUsername);
+                    if (!string.IsNullOrEmpty(txtSalary.Text))
+                    {
+                        cmd.Parameters.AddWithValue("@salary", salary);
+                    }
+
+                    if (!string.IsNullOrEmpty(txtBonus.Text))
+                    {
+                        cmd.Parameters.AddWithValue("@bonus", bonus);
+                    }
+
+                    if (!string.IsNullOrEmpty(selectedUsername))
+                    {
+                        cmd.Parameters.AddWithValue("@username", selectedUsername);
+                    }
 
                     try
                     {
@@ -114,6 +145,12 @@ namespace YourDoctor.Pages
                     }
                 }
             }
+        }
+
+        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        {
+            DialogResult = false;
+            Close();
         }
     }
 }

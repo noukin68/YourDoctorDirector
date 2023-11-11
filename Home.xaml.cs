@@ -36,6 +36,7 @@ namespace YourDoctor
             if (userRoles.Contains("Директор"))
             {
                 btnAddEmployee.Visibility = Visibility.Visible;
+                btnSetSalary.Visibility= Visibility.Visible;
             }
 
             if (userRoles.Contains("Фармацевт"))
@@ -46,6 +47,7 @@ namespace YourDoctor
                 rdSuppliers.Visibility = Visibility.Collapsed;
                 rdSupply.Visibility = Visibility.Collapsed;
                 rdReviews.Visibility = Visibility.Collapsed;
+                btnSetSalary.Visibility = Visibility.Collapsed;
             }
         }
 

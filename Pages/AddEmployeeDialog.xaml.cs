@@ -39,7 +39,7 @@ namespace YourDoctor.Pages
         {
             if (string.IsNullOrWhiteSpace(txtUsername.Text))
             {
-                MessageBox.Show("Введите имя пользователя");
+                MessageBox.Show("Введите имя сотрудника");
                 return;
             }
 

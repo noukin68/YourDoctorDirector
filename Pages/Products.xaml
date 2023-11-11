@@ -68,20 +68,42 @@
             </Button>
 
             <Button Background="#0063F7"
-        BorderBrush="#0063F7"
-        FontFamily="Poppins"
-        FontWeight="SemiBold"
-        Grid.Column="3"
-        Grid.Row="1"
-        Cursor="Hand"
-        x:Name="btnExportToExcel"
-        Style="{StaticResource butTh}"
-        Visibility="Collapsed"
-        Click="btnExportToExcel_Click">
+                          BorderBrush="#0063F7"
+                          FontFamily="Poppins"
+                          FontWeight="SemiBold"
+                          Grid.Column="3"
+                          Grid.Row="1"
+                          Cursor="Hand"
+                          x:Name="btnExportToExcel"
+                          Style="{StaticResource butTh}"
+                          Visibility="Collapsed"
+                          Click="btnExportToExcel_Click">
                 <TextBlock Text="Экспорт в Excel"
-               Foreground="White"
-               FontSize="15"/>
+                          Foreground="White"
+                          FontSize="15"/>
             </Button>
+
+            <Button Content="Продать" 
+                    Click="btnSell_Click" 
+                    x:Name="btnSell"
+                    Grid.Column="5"
+                    Grid.Row="1" 
+                    Style="{StaticResource butTh}"
+                    Background="#0063F7"
+                          BorderBrush="#0063F7"
+                          FontFamily="Poppins"
+                          FontWeight="SemiBold"/>
+            
+            <Button Content="Сводка по продажам" 
+                    Click="btnViewSalesSummary_Click" 
+                    x:Name="btnViewSalesSummary"
+                    Grid.Column="1"
+                    Grid.Row="1" 
+                    Style="{StaticResource butTh}"
+                    Background="#0063F7"
+                          BorderBrush="#0063F7"
+                          FontFamily="Poppins"
+                          FontWeight="SemiBold"/>
 
 
             <Button Background="#0063F7"
@@ -98,7 +120,6 @@
                            Foreground="White"
                            FontSize="15"/>
             </Button>
-            
 
 
             <DataGrid Grid.Row="2"
@@ -181,6 +202,7 @@
                             </Style>
                         </DataGridTextColumn.ElementStyle>
                     </DataGridTextColumn>
+                    <DataGridTextColumn Header="Проданное количество" Binding="{Binding QuantitySold}" IsReadOnly="True" />
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

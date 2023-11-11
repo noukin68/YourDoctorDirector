@@ -49,14 +49,19 @@ namespace YourDoctor.Pages
             if (!userRoles.Contains("Фармацевт"))
             {
                 tbSearch.Visibility = Visibility.Collapsed;
+                btnSell.Visibility = Visibility.Collapsed;
+            }
+            if (!userRoles.Contains("Директор"))
+            {
+                btnViewSalesSummary.Visibility= Visibility.Collapsed;
             }
 
- 
+
 
             con.Open();
 
             // Создайте SQL-запрос для выборки данных
-            string query = "SELECT ProductID, Name, Description, Price, QuantityInStock FROM Products";
+            string query = "SELECT ProductID, Name, Description, Price, QuantityInStock, QuantitySold FROM Products";
             MySqlCommand cmd = new MySqlCommand(query, con);
 
             // Используйте MySqlDataAdapter для работы с данными
@@ -173,6 +178,109 @@ namespace YourDoctor.Pages
                     // Обработка ошибки
                     MessageBox.Show("Произошла ошибка при экспорте данных в Excel: " + ex.Message);
                 }
+            }
+        }
+
+        private void btnSell_Click(object sender, RoutedEventArgs e)
+        {
+            DataRowView selectedItem = (DataRowView)gridMe.SelectedItem;
+
+            if (selectedItem != null)
+            {
+                int productId = Convert.ToInt32(selectedItem["ProductID"]);
+                string productName = selectedItem["Name"].ToString();
+                decimal productPrice = Convert.ToDecimal(selectedItem["Price"]);
+
+                // Implement the logic to handle the sale, update QuantityInStock and QuantitySold
+                // For example:
+                int quantityToSell = 1;
+
+                if (quantityToSell <= Convert.ToInt32(selectedItem["QuantityInStock"]))
+                {
+                    try
+                    {
+                        con.Open();
+
+                        // Update QuantityInStock and QuantitySold in the database
+                        string updateQuery = $"UPDATE Products SET QuantityInStock = QuantityInStock - {quantityToSell}, QuantitySold = QuantitySold + {quantityToSell} WHERE ProductID = {productId}";
+                        MySqlCommand updateCmd = new MySqlCommand(updateQuery, con);
+                        updateCmd.ExecuteNonQuery();
+
+                        // Update DataTable to reflect changes
+                        selectedItem["QuantityInStock"] = Convert.ToInt32(selectedItem["QuantityInStock"]) - quantityToSell;
+                        selectedItem["QuantitySold"] = Convert.ToInt32(selectedItem["QuantitySold"]) + quantityToSell;
+
+                        // Display a success message
+                        MessageBox.Show($"Продажа {quantityToSell} {productName} за {productPrice * quantityToSell:N2} ₽ завершена успешно.", "Продажа завершена", MessageBoxButton.OK, MessageBoxImage.Information, MessageBoxResult.OK, MessageBoxOptions.DefaultDesktopOnly);
+
+                    }
+                    catch (Exception ex)
+                    {
+                        // Display an error message if the update fails
+                        MessageBox.Show($"Error updating database: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                    }
+                    finally
+                    {
+                        con.Close();
+                    }
+                }
+                else
+                {
+                    // Display an error message if there is not enough stock
+                    MessageBox.Show("Недостаточно товара для продажи.", "Недостаточный запас", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
+            else
+            {
+                // Display an error message if no item is selected
+                MessageBox.Show("\r\nПожалуйста, выберите продукт для продажи.", "Ошибка выбора", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+        private void ShowSalesSummary()
+        {
+            try
+            {
+                con.Open();
+
+                // Create SQL query to get the total sales summary
+                string query = "SELECT SUM(QuantitySold) AS TotalSold, SUM(QuantitySold * Price) AS TotalRevenue FROM Products";
+                MySqlCommand cmd = new MySqlCommand(query, con);
+
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        int totalSold = reader.GetInt32("TotalSold");
+                        decimal totalRevenue = reader.GetDecimal("TotalRevenue");
+
+                        MessageBox.Show($"Общая сводка по продажам:\n\nКоличество проданных товаров: {totalSold}\nОбщая выручка: {totalRevenue:N2} ₽", "Сводка по продажам", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Нет данных о продажах.", "Сводка по продажам", MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка при получении сводки по продажам: {ex.Message}", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        private void btnViewSalesSummary_Click(object sender, RoutedEventArgs e)
+        {
+            if (userRoles.Contains("Директор"))
+            {
+                ShowSalesSummary();
+            }
+            else
+            {
+                MessageBox.Show("У вас нет прав для просмотра сводки по продажам.", "Ошибка доступа", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
     }

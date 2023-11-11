@@ -5,15 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:YourDoctor.Pages"
         mc:Ignorable="d"
-        Title="Добавить сотрудника" Height="300" Width="400">
+        Title="Добавить сотрудника" Height="200" Width="400">
     <Grid>
-        <Label Content="Username:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"/>
+        <Label Content="Имя сотрудника:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,10,0,0"/>
         <TextBox Name="txtUsername" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,10,0,0" Width="150"/>
 
-        <Label Content="Password:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,40,0,0"/>
+        <Label Content="Пароль:" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,40,0,0"/>
         <PasswordBox Name="txtPassword" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="120,40,0,0" Width="150"/>
 
         <Button Content="OK" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10,100,0,10" Width="75" Click="btnOK_Click"/>
-        <Button Content="Cancel" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="100,100,0,10" Width="75" Click="btnCancel_Click"/>
+        <Button Content="Отмена" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="100,100,0,10" Width="75" Click="btnCancel_Click"/>
     </Grid>
 </Window>
