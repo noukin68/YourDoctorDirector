@@ -16,9 +16,6 @@ using System.Windows.Shapes;
 
 namespace YourDoctor.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для SetSalaryDialog.xaml
-    /// </summary>
     public partial class SetSalaryDialog : Window
     {
         public SetSalaryDialog()
@@ -29,10 +26,8 @@ namespace YourDoctor.Pages
 
         private void FillUserComboBox()
         {
-            // Очистить предыдущие элементы списка
             cboUsers.Items.Clear();
 
-            // Получение списка имен пользователей из базы данных
             string connectionString = ConfigurationManager.ConnectionStrings["yourDoctor"].ConnectionString;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
@@ -56,8 +51,6 @@ namespace YourDoctor.Pages
 
         private void btnSetSalary_Click(object sender, RoutedEventArgs e)
         {
-
-            // Получение выбранного пользователя из выпадающего списка
             string selectedUsername = cboUsers.SelectedItem as string;
 
             if (string.IsNullOrEmpty(selectedUsername))
@@ -66,7 +59,6 @@ namespace YourDoctor.Pages
                 return;
             }
 
-            // Получение данных из текстовых полей
             decimal salary;
             if (!decimal.TryParse(txtSalary.Text, out salary))
             {
@@ -81,13 +73,11 @@ namespace YourDoctor.Pages
                 return;
             }
 
-            // Обновление данных в базе данных
             string connectionString = ConfigurationManager.ConnectionStrings["yourDoctor"].ConnectionString;
             using (MySqlConnection connection = new MySqlConnection(connectionString))
             {
                 connection.Open();
 
-                // Подготовка SQL-запроса для обновления данных пользователя
                 string updateQuery = "UPDATE users SET ";
 
                 if (!string.IsNullOrEmpty(txtSalary.Text))
@@ -104,7 +94,6 @@ namespace YourDoctor.Pages
                     updateQuery += "bonus = @bonus";
                 }
 
-                // условие для пользователя не обязательно
                 if (!string.IsNullOrEmpty(selectedUsername))
                 {
                     updateQuery += " WHERE username = @username";

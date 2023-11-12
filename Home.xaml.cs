@@ -130,20 +130,15 @@ namespace YourDoctor
                 string username = dialog.txtUsername.Text;
                 string password = dialog.txtPassword.Password;
 
-                // подключение к БД
                 string connectionString = ConfigurationManager.ConnectionStrings["yourDoctor"].ConnectionString;
                 MySqlConnection conn = new MySqlConnection(connectionString);
 
-                // запрос на добавление данных
                 string query = "INSERT INTO users (Username, Password) VALUES (@username, @password)";
 
-
-                // создание команды 
                 MySqlCommand cmd = new MySqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@username", username);
                 cmd.Parameters.AddWithValue("@password", password);
 
-                // открытие соединения и выполнение запроса
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
@@ -154,10 +149,6 @@ namespace YourDoctor
         {
             SetSalaryDialog setSalaryDialog = new SetSalaryDialog();
 
-            // Вызываем окно с помощью метода ShowDialog, если вам нужно блокировать основное окно
-            // setSalaryDialog.ShowDialog();
-
-            // Или используйте метод Show, если вам не нужно блокировать основное окно
             setSalaryDialog.Show();
         }
     }
